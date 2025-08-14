@@ -17,13 +17,16 @@ const right: Benefit[] = [
 
 function BenefitItem({ title, text }: Benefit) {
     return (
-        <div className="flex items-start space-x-4">
-            <div className="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center mt-1">
-                <span className="w-2 h-2 bg-emerald-600 rounded-full" />
+        <div className="flex items-start gap-4">
+            <div className="relative mt-1">
+                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-100 to-emerald-50 flex items-center justify-center ring-1 ring-emerald-200/60 shadow-sm">
+                    <span className="w-2.5 h-2.5 bg-emerald-600 rounded-full shadow-inner" />
+                </div>
+                <div className="absolute inset-0 animate-pulse rounded-full bg-emerald-400/0" aria-hidden="true" />
             </div>
-            <div>
-                <h3 className="font-semibold text-gray-900 mb-2">{title}</h3>
-                <p className="text-gray-600">{text}</p>
+            <div className="pt-0.5">
+                <h3 className="font-semibold text-gray-900 mb-1 leading-snug">{title}</h3>
+                <p className="text-gray-600 text-sm sm:text-base leading-relaxed">{text}</p>
             </div>
         </div>
     );
