@@ -1,0 +1,172 @@
+// Archivo restaurado: esquema completo con datasource y modelos
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  USUARIO
+  EMPRESA
+}
+
+enum ResiduoTipo {
+  ORGANICO
+  INORGANICO
+  PELIGROSO
+}
+
+enum SolicitudEstado {
+  PENDIENTE
+  PROGRAMADA
+  ASIGNADA
+  COMPLETADA
+  CANCELADA
+}
+
+enum FrecuenciaInorganico {
+  UNICA
+  SEMANAL_1
+  SEMANAL_2
+}
+
+enum FrecuenciaPeligroso {
+  UNICA
+  MENSUAL
+}
+
+enum DiaSemana {
+  LUNES
+  MARTES
+  MIERCOLES
+  JUEVES
+  VIERNES
+  SABADO
+  DOMINGO
+}
+
+model Usuario {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  nombre       String?
+  telefono     String?
+  localidad    String?
+  direccion    String?
+  role         Role     @default(USUARIO)
+  empresa      EmpresaRecolectora? @relation(fields: [empresaId], references: [id])
+  empresaId    String?
+  suscripcion  Suscripcion?
+  solicitudes  SolicitudRecoleccion[]
+  puntos       Puntaje[]
+  notificaciones Notificacion[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  @@index([role])
+  @@index([localidad])
+}
+
+model EmpresaRecolectora {
+  id            String        @id @default(cuid())
+  nombre        String
+  nit           String?       @unique
+  contactoEmail String?
+  contactoTel   String?
+  usuarios      Usuario[]
+  recolecciones Recoleccion[]
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+}
+
+model Suscripcion {
+  id        String   @id @default(cuid())
+  usuario   Usuario  @relation(fields: [usuarioId], references: [id])
+  usuarioId String   @unique
+  activa    Boolean  @default(true)
+  creadaEn  DateTime @default(now())
+  expiraEn  DateTime?
+}
+
+model ConfigPuntos {
+  id             String   @id @default(cuid())
+  descripcion    String?
+  expresion      String   @default("base + peso * factor")
+  base           Int      @default(10)
+  factorPeso     Int      @default(2)
+  factorSeparado Int      @default(5)
+  activo         Boolean  @default(true)
+  createdAt      DateTime @default(now())
+}
+
+model SolicitudRecoleccion {
+  id              String            @id @default(cuid())
+  usuario         Usuario           @relation(fields: [usuarioId], references: [id])
+  usuarioId       String
+  tipoResiduo     ResiduoTipo
+  estado          SolicitudEstado   @default(PENDIENTE)
+  fechaSolicitada DateTime
+  fechaProgramada DateTime?
+  frecuenciaInorg FrecuenciaInorganico?
+  frecuenciaPelig FrecuenciaPeligroso?
+  turnoRuta       Int?
+  localidad       String?
+  notas           String?
+  recoleccion     Recoleccion?
+  notificaciones  Notificacion[]
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+}
+
+model Recoleccion {
+  id              String               @id @default(cuid())
+  solicitud       SolicitudRecoleccion @relation(fields: [solicitudId], references: [id])
+  solicitudId     String   @unique
+  empresa         EmpresaRecolectora?  @relation(fields: [empresaId], references: [id])
+  empresaId       String?
+  fecha           DateTime             @default(now())
+  pesoKg          Float?
+  separadoOk      Boolean?
+  puntosGenerados Int?
+  createdAt       DateTime             @default(now())
+  updatedAt       DateTime             @updatedAt
+  puntaje         Puntaje?
+}
+
+model Puntaje {
+  id            String      @id @default(cuid())
+  usuario       Usuario     @relation(fields: [usuarioId], references: [id])
+  usuarioId     String
+  recoleccion   Recoleccion? @relation(fields: [recoleccionId], references: [id])
+  recoleccionId String? @unique
+  puntos        Int
+  motivo        String?
+  createdAt     DateTime    @default(now())
+}
+
+model Notificacion {
+  id          String     @id @default(cuid())
+  usuario     Usuario    @relation(fields: [usuarioId], references: [id])
+  usuarioId   String
+  solicitud   SolicitudRecoleccion? @relation(fields: [solicitudId], references: [id])
+  solicitudId String?
+  tipo        String
+  canal       String     @default("WHATSAPP")
+  mensaje     String
+  enviadoEn   DateTime   @default(now())
+}
+
+// Horario semanal por localidad para recolección automática de orgánicos
+model HorarioOrganico {
+  id        String    @id @default(cuid())
+  localidad String    @unique
+  dia       DiaSemana
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  @@index([dia])
+}
+
