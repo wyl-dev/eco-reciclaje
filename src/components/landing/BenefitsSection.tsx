@@ -31,9 +31,9 @@ function BenefitItem({ title, text }: Benefit) {
 
 export default function BenefitsSection() {
     return (
-        <section id="beneficios" className="px-4 lg:px-6 py-20 bg-white">
+        <section id="beneficios" className="scroll-mt-24 px-4 lg:px-6 py-16 lg:py-20 bg-white">
             <div className="max-w-4xl mx-auto text-center">
-                <h2 className="text-3xl lg:text-4xl font-bold mb-8 text-gray-900">¿Por Qué Elegir EcoReciclaje?</h2>
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-8 text-gray-900">¿Por Qué Elegir EcoReciclaje?</h2>
                 <div className="grid md:grid-cols-2 gap-8 text-left">
                     <div className="space-y-6">
                         {left.map((b) => (

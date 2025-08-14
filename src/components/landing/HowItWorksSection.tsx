@@ -17,11 +17,11 @@ export default function HowItWorksSection() {
         },
     ];
     return (
-        <section id="como-funciona" className="px-4 lg:px-6 py-20" style={{ backgroundColor: "#F9FAFB" }}>
+        <section id="como-funciona" className="scroll-mt-24 px-4 lg:px-6 py-16 lg:py-20" style={{ backgroundColor: "#F9FAFB" }}>
             <div className="max-w-6xl mx-auto">
                 <div className="text-center mb-16">
-                    <h2 className="text-3xl lg:text-4xl font-bold mb-4 text-gray-900">¿Cómo Funciona?</h2>
-                    <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                    <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 text-gray-900">¿Cómo Funciona?</h2>
+                    <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto">
                         En solo 3 pasos simples, comienza a hacer la diferencia con el reciclaje inteligente
                     </p>
                 </div>

@@ -4,13 +4,13 @@ import Link from "next/link";
 
 export default function HeroSection() {
     return (
-        <section id="inicio" className="px-4 lg:px-6 py-20 lg:py-32 bg-gradient-to-br from-emerald-50 to-blue-50">
+        <section id="inicio" className="scroll-mt-24 px-4 lg:px-6 py-16 lg:py-32 bg-gradient-to-br from-emerald-50 to-blue-50">
             <div className="max-w-4xl mx-auto text-center">
-                <h2 className="text-4xl lg:text-6xl font-bold mb-6 text-gray-900">
+                <h2 className="text-3xl sm:text-4xl lg:text-6xl font-bold mb-6 text-gray-900 leading-tight">
                     Recicla Inteligentemente. <br />
                     <span className="text-emerald-600">Impacta Positivamente.</span>
                 </h2>
-                <p className="text-lg lg:text-xl mb-8 max-w-2xl mx-auto text-gray-600">
+                <p className="text-base sm:text-lg lg:text-xl mb-8 max-w-2xl mx-auto text-gray-600">
                     Únete a nuestra plataforma de reciclaje inteligente y contribuye al cuidado del medio ambiente
                     mientras ganas puntos por cada acción responsable.
                 </p>
@@ -31,7 +31,7 @@ export default function HeroSection() {
                         <Link href="#caracteristicas">Conocer Más</Link>
                     </Button>
                 </div>
-                <div className="mt-16 grid md:grid-cols-3 gap-8 text-center">
+                <div className="mt-12 sm:mt-16 grid sm:grid-cols-3 gap-8 text-center">
                     <div className="p-6">
                         <div className="w-16 h-16 rounded-full bg-emerald-100 flex items-center justify-center mx-auto mb-4">
                             <Users className="h-8 w-8 text-emerald-600" />

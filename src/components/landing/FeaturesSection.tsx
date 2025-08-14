@@ -3,20 +3,20 @@ import { Card, CardContent } from "../ui/card";
 
 export default function FeaturesSection() {
     return (
-        <section id="caracteristicas" className="px-4 lg:px-6 py-20 bg-white">
+        <section id="caracteristicas" className="scroll-mt-24 px-4 lg:px-6 py-16 lg:py-20 bg-white">
             <div className="max-w-6xl mx-auto">
                 <div className="text-center mb-16">
-                    <h2 className="text-3xl lg:text-4xl font-bold mb-4 text-gray-900">
+                    <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 text-gray-900">
                         Características Principales
                     </h2>
-                    <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                    <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto">
                         Descubre todas las herramientas que tenemos para hacer del reciclaje una experiencia fácil y recompensante
                     </p>
                 </div>
                 <div className="grid md:grid-cols-3 gap-8">
                     {/* Feature 1 */}
                     <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow duration-300">
-                        <CardContent className="p-8 text-center">
+                        <CardContent className="p-6 lg:p-8 text-center">
                             <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6 bg-emerald-600">
                                 <BookOpen className="h-8 w-8 text-white" />
                             </div>
@@ -31,7 +31,7 @@ export default function FeaturesSection() {
                     </Card>
                     {/* Feature 2 */}
                     <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow duration-300">
-                        <CardContent className="p-8 text-center">
+                        <CardContent className="p-6 lg:p-8 text-center">
                             <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6 bg-emerald-600">
                                 <MapPin className="h-8 w-8 text-white" />
                             </div>
@@ -46,7 +46,7 @@ export default function FeaturesSection() {
                     </Card>
                     {/* Feature 3 */}
                     <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow duration-300">
-                        <CardContent className="p-8 text-center">
+                        <CardContent className="p-6 lg:p-8 text-center">
                             <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6 bg-emerald-600">
                                 <Award className="h-8 w-8 text-white" />
                             </div>
@@ -61,7 +61,7 @@ export default function FeaturesSection() {
                     </Card>
                     {/* Feature 4 */}
                     <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow duration-300">
-                        <CardContent className="p-8 text-center">
+                        <CardContent className="p-6 lg:p-8 text-center">
                             <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6 bg-blue-600">
                                 <BarChart3 className="h-8 w-8 text-white" />
                             </div>
@@ -76,7 +76,7 @@ export default function FeaturesSection() {
                     </Card>
                     {/* Feature 5 */}
                     <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow duration-300">
-                        <CardContent className="p-8 text-center">
+                        <CardContent className="p-6 lg:p-8 text-center">
                             <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6 bg-purple-600">
                                 <Shield className="h-8 w-8 text-white" />
                             </div>
@@ -91,7 +91,7 @@ export default function FeaturesSection() {
                     </Card>
                     {/* Feature 6 */}
                     <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow duration-300">
-                        <CardContent className="p-8 text-center">
+                        <CardContent className="p-6 lg:p-8 text-center">
                             <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6 bg-green-600">
                                 <Recycle className="h-8 w-8 text-white" />
                             </div>
