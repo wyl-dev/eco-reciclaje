@@ -58,7 +58,7 @@ function TermsContent() {
   return (
     <div className="space-y-4">
       <p>
-        Al usar EcoReciclaje aceptas estos Términos de Servicio. La plataforma se ofrece "tal cual" y
+        Al usar EcoReciclaje aceptas estos Términos de Servicio. La plataforma se ofrece &quot;tal cual&quot; y
         puede actualizarse constantemente para mejorar la experiencia de reciclaje.
       </p>
       <p>
