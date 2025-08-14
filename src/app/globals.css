@@ -122,39 +122,3 @@
   }
 }
 
-/* Smooth scroll global */
-html {
-  scroll-behavior: smooth;
-}
-
-/* Ajuste para que las secciones no queden pegadas al top si luego hay header sticky */
-section[id] {
-  scroll-margin-top: 96px;
-}
-
-/* Animación sutil al llegar a una ancla */
-@keyframes anchorPulseBg {
-  0% {
-    box-shadow: 0 0 0 0 rgba(16 185 129 / 0);
-    background-color: inherit;
-  }
-
-  20% {
-    box-shadow: 0 0 0 4px rgba(16 185 129 / .15);
-    background-color: rgba(16 185 129 / .05);
-  }
-
-  60% {
-    box-shadow: 0 0 0 0 rgba(16 185 129 / .0);
-    background-color: rgba(16 185 129 / .08);
-  }
-
-  100% {
-    box-shadow: 0 0 0 0 rgba(16 185 129 / 0);
-    background-color: inherit;
-  }
-}
-
-section[id]:target {
-  animation: anchorPulseBg 1.25s ease;
-}
