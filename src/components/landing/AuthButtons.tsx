@@ -11,8 +11,8 @@ type Props = {
 };
 
 const AuthButtons = ({
-  loginHref = "/login",
-  signupHref = "/signup",
+  loginHref = "/auth/login",
+  signupHref = "/auth/signup",
   compact = false,
 }: Props) => {
   if (compact) {

@@ -16,7 +16,7 @@ export default function CallToActionSection() {
                     className="px-12 py-4 text-lg font-semibold bg-white text-emerald-600 hover:bg-gray-50"
                     asChild
                 >
-                    <Link href="/signup">Crear Mi Cuenta Gratuita</Link>
+                    <Link href="/auth/signup">Crear Mi Cuenta Gratuita</Link>
                 </Button>
             </div>
         </section>

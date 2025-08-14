@@ -20,7 +20,7 @@ export default function HeroSection() {
                         className="px-8 py-4 text-white bg-emerald-600 hover:bg-emerald-700"
                         asChild
                     >
-                        <Link href="/signup">Comenzar Ahora - Es Gratis</Link>
+                        <Link href="/auth/signup">Comenzar Ahora - Es Gratis</Link>
                     </Button>
                     <Button
                         variant="outline"
