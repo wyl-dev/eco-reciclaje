@@ -7,22 +7,22 @@ const JWT_SECRET = process.env.JWT_SECRET || 'dev-secret-change';
 const JWT_EXPIRES = '7d';
 
 export const signupSchema = z.object({
-  name: z.string().min(3, 'Nombre muy corto'),
-  email: z.string().email('Correo inválido').toLowerCase(),
-  password: z.string().min(6, 'Mínimo 6 caracteres'),
+  name: z.string().min(1,'El nombre es obligatorio').refine(v=>v.trim().length>=3,'Nombre muy corto').transform(v=>v.trim()),
+  email: z.string().min(1,'El correo es obligatorio').email('Correo inválido').transform(v=>v.toLowerCase().trim()),
+  password: z.string().min(1,'La contraseña es obligatoria').refine(v=>v.length>=6,'Mínimo 6 caracteres'),
   role: z.enum(['usuario','empresa']).default('usuario'),
   locality: z.string().optional(),
   address: z.string().optional()
 }).superRefine((data, ctx)=>{
   if(data.role === 'usuario'){
-    if(!data.locality) ctx.addIssue({ code:'custom', message:'Selecciona la localidad', path:['locality'] });
-    if(!data.address) ctx.addIssue({ code:'custom', message:'Ingresa la dirección', path:['address'] });
+    if(!data.locality || data.locality.trim()==='') ctx.addIssue({ code:'custom', message:'La localidad es obligatoria', path:['locality'] });
+    if(!data.address || data.address.trim()==='') ctx.addIssue({ code:'custom', message:'La dirección es obligatoria', path:['address'] });
   }
 });
 
 export const loginSchema = z.object({
-  email: z.string().email('Correo inválido').toLowerCase(),
-  password: z.string().min(1, 'Contraseña requerida')
+  email: z.string().min(1,'El correo es obligatorio').email('Correo inválido').transform(v=>v.toLowerCase().trim()),
+  password: z.string().min(1,'La contraseña es obligatoria')
 });
 
 export async function hashPassword(password: string){

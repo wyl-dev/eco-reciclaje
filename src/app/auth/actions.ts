@@ -6,12 +6,12 @@ import { z } from 'zod';
 export async function signupAction(formData: FormData){
   const raw = Object.fromEntries(formData.entries());
   const parsed = signupSchema.safeParse({
-    name: raw.name,
-    email: raw.email,
-    password: raw.password,
-    role: raw.role,
-    locality: raw.locality,
-    address: raw.address
+    name: (raw.name ?? '').toString(),
+    email: (raw.email ?? '').toString(),
+    password: (raw.password ?? '').toString(),
+    role: (raw.role ?? 'usuario').toString(),
+    locality: raw.locality ? raw.locality.toString() : '',
+    address: raw.address ? raw.address.toString() : ''
   });
   if(!parsed.success){
     return { ok:false, fieldErrors: fieldErrors(parsed.error), message:'Errores de validación' };
@@ -27,7 +27,10 @@ export async function signupAction(formData: FormData){
 
 export async function loginAction(formData: FormData){
   const raw = Object.fromEntries(formData.entries());
-  const parsed = loginSchema.safeParse({ email: raw.email, password: raw.password });
+  const parsed = loginSchema.safeParse({
+    email: (raw.email ?? '').toString(),
+    password: (raw.password ?? '').toString()
+  });
   if(!parsed.success){
     return { ok:false, fieldErrors: fieldErrors(parsed.error), message:'Errores de validación' };
   }
