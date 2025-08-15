@@ -18,7 +18,7 @@ export async function signupAction(formData: FormData){
   }
   try {
     const user = await createUser(parsed.data);
-    return { ok:true, userId: user.id, message:'Registro exitoso' };
+  return { ok:true, userId: user.id, message:'Registro exitoso', redirect:'/auth/login' };
   } catch(e: unknown){
     const message = e instanceof Error ? e.message : 'Error al registrar';
     return { ok:false, message };
@@ -37,7 +37,7 @@ export async function loginAction(formData: FormData){
   try {
     const { user, token } = await authenticate(parsed.data);
     (await cookies()).set('auth_token', token, { httpOnly:true, sameSite:'lax', path:'/', maxAge:60*60*24*7 });
-    return { ok:true, userId: user.id, role: user.role, message:'Sesión iniciada' };
+  return { ok:true, userId: user.id, role: user.role, message:'Sesión iniciada', redirect:'/dashboard' };
   } catch(e: unknown){
     const message = e instanceof Error ? e.message : 'Credenciales inválidas';
     return { ok:false, message };

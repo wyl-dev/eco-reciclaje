@@ -5,10 +5,13 @@ import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { loginAction } from '@/app/auth/actions';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 
 export default function LoginFormClient(){
   const [data, setData] = useState({ email:'', password:'' });
+  const router = useRouter();
+  const search = useSearchParams();
   const [errors, setErrors] = useState<Record<string,string>>({});
   const firstErrorRef = useRef<HTMLInputElement | null>(null);
   useEffect(()=>{
@@ -31,8 +34,9 @@ export default function LoginFormClient(){
         if(res.fieldErrors) setErrors(res.fieldErrors);
         toast.error(res.message || 'Error de autenticación');
       } else {
-        toast.success('Sesión iniciada');
-        // Opcional: redirigir dashboard según rol
+  toast.success('Sesión iniciada');
+  const redirect = search.get('redirect') || res.redirect || '/dashboard';
+  router.push(redirect);
       }
     });
   }

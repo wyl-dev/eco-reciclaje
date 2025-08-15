@@ -6,9 +6,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { signupAction } from '@/app/auth/actions';
+import { useRouter } from 'next/navigation';
 
 export default function SignupFormClient(){
   const [data, setData] = useState({ name:'', email:'', password:'', role:'usuario', locality:'', address:'' });
+  const router = useRouter();
   const [errors, setErrors] = useState<Record<string,string>>({});
   const firstErrorRef = useRef<HTMLInputElement | null>(null);
   useEffect(()=>{
@@ -30,8 +32,8 @@ export default function SignupFormClient(){
         if(res.fieldErrors) setErrors(res.fieldErrors);
         toast.error(res.message || 'Error al registrar');
       } else {
-        toast.success('Registro exitoso');
-        // Opcional: redirigir al login
+  toast.success('Registro exitoso');
+  if(res.redirect) router.push(res.redirect);
       }
     });
   }
