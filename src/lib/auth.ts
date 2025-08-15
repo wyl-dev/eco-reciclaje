@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { z } from 'zod';
+import { cookies } from 'next/headers';
 import { prisma } from './prisma';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'dev-secret-change';
@@ -85,4 +86,32 @@ export async function authenticate(data: z.infer<typeof loginSchema>){
   if(!ok) throw new Error('Credenciales inválidas');
   const token = signToken({ uid: user.id, role: user.role });
   return { user, token };
+}
+
+export async function getCurrentUser() {
+  try {
+    const cookieStore = await cookies();
+    const token = cookieStore.get('auth_token')?.value;
+    
+    if (!token) return null;
+    
+    const payload = verifyToken(token);
+    if (!payload) return null;
+    
+    const user = await prisma.usuario.findUnique({
+      where: { id: payload.uid },
+      select: {
+        id: true,
+        email: true,
+        nombre: true,
+        role: true,
+        localidad: true,
+        direccion: true
+      }
+    });
+    
+    return user;
+  } catch {
+    return null;
+  }
 }
