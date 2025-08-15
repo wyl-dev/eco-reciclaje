@@ -5,13 +5,12 @@ import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { loginAction } from '@/app/auth/actions';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 export default function LoginFormClient(){
   const [data, setData] = useState({ email:'', password:'' });
   const router = useRouter();
-  const search = useSearchParams();
   const [errors, setErrors] = useState<Record<string,string>>({});
   const firstErrorRef = useRef<HTMLInputElement | null>(null);
   useEffect(()=>{
@@ -35,7 +34,11 @@ export default function LoginFormClient(){
         toast.error(res.message || 'Error de autenticación');
       } else {
   toast.success('Sesión iniciada');
-  const redirect = search.get('redirect') || res.redirect || '/dashboard';
+        let redirect = res.redirect || '/dashboard';
+        if(typeof window !== 'undefined'){
+          const url = new URL(window.location.href);
+            redirect = url.searchParams.get('redirect') || redirect;
+        }
   router.push(redirect);
       }
     });
