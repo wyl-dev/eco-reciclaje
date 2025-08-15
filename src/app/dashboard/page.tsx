@@ -1,25 +1,28 @@
+
+
+
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { verifyToken } from '@/lib/auth';
+import DashboardClient from '@/components/dashboard/DashboardClient';
 
-export const dynamic = 'force-dynamic';
+export const dynamicType = 'force-dynamic';
 
 export default async function DashboardPage() {
   const token = (await cookies()).get('auth_token')?.value;
-  if(!token) {
+  if (!token) {
     redirect('/auth/login?redirect=/dashboard');
   }
   const payload = verifyToken(token);
-  if(!payload) {
-    // Cookie inválida -> limpiar y redirigir
+  if (!payload) {
     (await cookies()).delete('auth_token');
     redirect('/auth/login?redirect=/dashboard');
   }
+
+  // Pasar el rol y nombre de usuario al dashboard client component
   return (
     <div className="space-y-4">
-      <h1 className="text-2xl font-semibold">Dashboard</h1>
-      <p className="text-sm text-muted-foreground">Bienvenido al panel de control.</p>
-      <div className="text-xs text-muted-foreground">Usuario ID: {payload.uid} · Rol: {payload.role}</div>
+      <DashboardClient role={payload.role} username={payload.uid} />
     </div>
   );
 }
