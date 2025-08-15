@@ -111,8 +111,9 @@ model SolicitudRecoleccion {
   estado          SolicitudEstado   @default(PENDIENTE)
   fechaSolicitada DateTime
   fechaProgramada DateTime?
-  frecuenciaInorg FrecuenciaInorganico?
-  frecuenciaPelig FrecuenciaPeligroso?
+  // Renombrados para evitar abreviaturas: antes frecuenciaInorg / frecuenciaPelig
+  frecuenciaInorganico FrecuenciaInorganico?
+  frecuenciaPeligroso  FrecuenciaPeligroso?
   turnoRuta       Int?
   localidad       String?
   notas           String?
