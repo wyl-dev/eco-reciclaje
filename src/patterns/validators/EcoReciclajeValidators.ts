@@ -101,7 +101,7 @@ export function createSolicitudRecoleccionValidator(prisma: PrismaClient) {
       descripcion: 'string'
     })
     .ranges({
-      direccion: { minLength: 10, maxLength: 200 },
+      direccion: { minLength: 5, maxLength: 200 },
       descripcion: { maxLength: 500 },
       cantidad: { min: 0.1, max: 1000 }
     })

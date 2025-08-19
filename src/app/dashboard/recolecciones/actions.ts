@@ -46,6 +46,7 @@ export async function crearSolicitudAction(formData: FormData) {
       frecuenciaInorg,
       frecuenciaPelig,
       localidad: user.localidad || undefined,
+      direccion: user.direccion || undefined,
       notas
     };
 
@@ -60,6 +61,7 @@ export async function crearSolicitudAction(formData: FormData) {
       },
       metadata: { source: 'create_solicitud' }
     });
+
 
     if (!validationResult.isValid) {
       return {
