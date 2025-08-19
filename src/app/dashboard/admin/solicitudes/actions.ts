@@ -30,8 +30,8 @@ export async function getSolicitudesAdminAction(estado?: string, localidad?: str
         fechaProgramada: s.fechaProgramada?.toISOString(),
         localidad: s.localidad,
         notas: s.notas,
-        frecuenciaInorg: s.frecuenciaInorg,
-        frecuenciaPelig: s.frecuenciaPelig,
+  frecuenciaInorg: s.frecuenciaInorganico,
+  frecuenciaPelig: s.frecuenciaPeligroso,
         usuario: {
           nombre: s.usuario.nombre,
           email: s.usuario.email,

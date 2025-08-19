@@ -7,8 +7,8 @@ export async function crearSolicitudRecoleccion(data: {
   usuarioId: string;
   tipoResiduo: ResiduoTipo;
   fechaSolicitada: Date;
-  frecuenciaInorg?: FrecuenciaInorganico;
-  frecuenciaPelig?: FrecuenciaPeligroso;
+  frecuenciaInorg?: FrecuenciaInorganico; // param externo
+  frecuenciaPelig?: FrecuenciaPeligroso;  // param externo
   localidad?: string;
   notas?: string;
 }) {
@@ -27,8 +27,8 @@ export async function crearSolicitudRecoleccion(data: {
       usuarioId: data.usuarioId,
       tipoResiduo: data.tipoResiduo,
       fechaSolicitada: data.fechaSolicitada,
-      frecuenciaInorg: data.frecuenciaInorg,
-      frecuenciaPelig: data.frecuenciaPelig,
+  frecuenciaInorganico: data.frecuenciaInorg,
+  frecuenciaPeligroso: data.frecuenciaPelig,
       localidad: data.localidad,
       notas: data.notas,
       estado: 'PENDIENTE'

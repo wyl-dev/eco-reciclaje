@@ -131,8 +131,8 @@ export async function getMisSolicitudesAction(estado?: string) {
         fechaSolicitada: s.fechaSolicitada.toISOString(),
         fechaProgramada: s.fechaProgramada?.toISOString(),
         notas: s.notas,
-        frecuenciaInorg: s.frecuenciaInorg,
-        frecuenciaPelig: s.frecuenciaPelig,
+        frecuenciaInorg: s.frecuenciaInorganico,
+        frecuenciaPelig: s.frecuenciaPeligroso,
         recoleccion: s.recoleccion ? {
           id: s.recoleccion.id,
           fecha: s.recoleccion.fecha.toISOString(),
