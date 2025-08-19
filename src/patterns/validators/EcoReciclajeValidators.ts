@@ -6,11 +6,11 @@
  */
 
 import { PrismaClient } from '@prisma/client';
-import { 
-  ValidationChainBuilder, 
-  ValidationContext, 
+import {
+  ValidationChainBuilder,
+  ValidationContext,
   ValidationResult,
-  ValidationUtils 
+  ValidationUtils
 } from './ValidationChain';
 import { configManager } from '../singleton/AppConfigManager';
 
@@ -19,31 +19,18 @@ import { configManager } from '../singleton/AppConfigManager';
  */
 export function createUsuarioRegistroValidator(prisma: PrismaClient) {
   return new ValidationChainBuilder()
-    .requiredFields(['email', 'password', 'nombre'])
+    .requiredFields(['email', 'password', 'name', 'direccion', 'localidad'])
     .dataTypes({
       email: 'email',
       password: 'string',
-      nombre: 'string',
-      telefono: 'string',
-      localidad: 'string'
+      name: 'string',
+      localidad: 'string',
+      direccion: 'string'
     })
     .ranges({
       password: { minLength: 8, maxLength: 100 },
-      nombre: { minLength: 2, maxLength: 50 },
-      telefono: { minLength: 8, maxLength: 20 },
+      name: { minLength: 2, maxLength: 50 },
       localidad: { maxLength: 50 }
-    })
-    .uniqueness({
-      email: {
-        checkUnique: async (email: unknown) => {
-          if (typeof email !== 'string') return false;
-          const existing = await prisma.usuario.findUnique({
-            where: { email }
-          });
-          return !existing;
-        },
-        message: 'Ya existe un usuario con este email'
-      }
     })
     .businessRules([
       {
@@ -64,24 +51,6 @@ export function createUsuarioRegistroValidator(prisma: PrismaClient) {
           return { isValid: errors.length === 0, errors };
         }
       },
-      {
-        name: 'telefono-format',
-        validator: async (context: ValidationContext) => {
-          const telefono = context.data.telefono as string;
-          const errors = [];
-
-          if (telefono && !ValidationUtils.isTelefono(telefono)) {
-            errors.push({
-              field: 'telefono',
-              message: 'Formato de teléfono inválido',
-              code: 'INVALID_PHONE_FORMAT',
-              value: telefono
-            });
-          }
-
-          return { isValid: errors.length === 0, errors };
-        }
-      }
     ])
     .build();
 }
@@ -163,7 +132,7 @@ export function createSolicitudRecoleccionValidator(prisma: PrismaClient) {
 
           if (fechaRecoleccion) {
             const hora = fechaRecoleccion.toTimeString().substring(0, 5);
-            
+
             if (!configManager.estaEnHorarioRecoleccion(hora)) {
               const config = configManager.getConfigSeccion('recoleccion');
               errors.push({
@@ -198,7 +167,7 @@ export function createSolicitudRecoleccionValidator(prisma: PrismaClient) {
           if (usuarioId && fechaRecoleccion) {
             const inicioDelDia = new Date(fechaRecoleccion);
             inicioDelDia.setHours(0, 0, 0, 0);
-            
+
             const finDelDia = new Date(fechaRecoleccion);
             finDelDia.setHours(23, 59, 59, 999);
 
@@ -408,7 +377,7 @@ export function createPasswordChangeValidator(_prisma: PrismaClient, _userId: st
             // Aquí verificarías la contraseña actual con bcrypt
             // const user = await prisma.usuario.findUnique({ where: { id: userId } });
             // const isValid = await bcrypt.compare(currentPassword, user.passwordHash);
-            
+
             // Por ahora, simulamos que siempre es válida
             // En producción, descomentar la verificación real
             console.log(`Validando contraseña para usuario: ${_userId}`);
@@ -429,14 +398,14 @@ function isStrongPassword(password: string): boolean {
   const hasUpperCase = /[A-Z]/.test(password);
   const hasLowerCase = /[a-z]/.test(password);
   const hasNumber = /\d/.test(password);
-  
+
   return password.length >= minLength && hasUpperCase && hasLowerCase && hasNumber;
 }
 
 function isValidCUIT(cuit: string): boolean {
   // Remover guiones y espacios
   const cleanCuit = cuit.replace(/[-\s]/g, '');
-  
+
   // Verificar que tenga 11 dígitos
   if (!/^\d{11}$/.test(cleanCuit)) {
     return false;
@@ -445,15 +414,15 @@ function isValidCUIT(cuit: string): boolean {
   // Algoritmo de validación de CUIT argentino
   const digits = cleanCuit.split('').map(Number);
   const multipliers = [5, 4, 3, 2, 7, 6, 5, 4, 3, 2];
-  
+
   let sum = 0;
   for (let i = 0; i < 10; i++) {
     sum += digits[i] * multipliers[i];
   }
-  
+
   const remainder = sum % 11;
   const checkDigit = remainder < 2 ? remainder : 11 - remainder;
-  
+
   return checkDigit === digits[10];
 }
 
@@ -511,8 +480,8 @@ export function createValidationMiddleware(
 ) {
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const result = await validateData(validatorName, req.body, prisma, { 
-        userId: (req as Request & { user?: { id: string } }).user?.id 
+      const result = await validateData(validatorName, req.body, prisma, {
+        userId: (req as Request & { user?: { id: string } }).user?.id
       });
 
       if (!result.isValid) {
